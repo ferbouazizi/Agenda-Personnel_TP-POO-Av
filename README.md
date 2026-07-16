@@ -1,4 +1,4 @@
-# Agenda Personnel — Application de Gestion d'un Agenda
+# Agenda Personnel : Application de Gestion d'un Agenda
 
 ## Aperçu du projet
 
