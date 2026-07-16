@@ -1,140 +1,362 @@
-Agenda Personnel : Application de Gestion d'un Agenda
+# Agenda Personnel — Application de Gestion d'un Agenda
 
-Apercu du projet
-Agenda Personnel est une application desktop en Java / JavaFX, connectee a une base de donnees Oracle, developpee dans le cadre d'un projet academique du module POO Avancee. Elle permet a un utilisateur de gerer ses evenements et ses taches au quotidien : creation, recherche multicriteres, categorisation, mise en evidence des rendez-vous importants et suivi de l'avancement des taches sous forme de tableau Kanban.
+## Aperçu du projet
 
-Fonctionnalites cles
-1. Authentification
-Inscription et connexion des utilisateurs
-Mots de passe haches en SHA-256 avant stockage
+**Agenda Personnel** est une application desktop développée en **Java 17 / JavaFX** et connectée à une base de données **Oracle Database XE**. Réalisée dans le cadre du module **POO Avancée**, elle permet à un utilisateur de gérer efficacement son emploi du temps grâce à la création d'événements, au suivi des tâches personnelles, à la recherche multicritères ainsi qu'à une visualisation de type **Kanban** pour le suivi de l'avancement des tâches.
 
-2. Gestion des evenements
-CRUD complet sur les evenements (titre, date, heure, description, categorie)
-Association a une categorie (couleur, icone)
-Mise en evidence des evenements marques comme importants
+L'application met en œuvre une architecture en couches (**Modèle – DAO – Contrôleur – Vue**) afin de séparer clairement la logique métier, l'accès aux données et l'interface utilisateur.
 
-3. Gestion des taches
-CRUD complet sur les taches personnelles
-Vue Kanban par statut (a faire / en cours / termine)
-Priorisation des taches
+---
 
-4. Recherche
-Recherche multicriteres : par date, par titre, par categorie
-Filtrage des rendez-vous a venir
+# Fonctionnalités clés
 
-5. Tableau de bord
-Vue d'ensemble des evenements et taches
-Acces rapide aux differentes sections de l'application
+## 1. Authentification
+- Inscription et connexion des utilisateurs
+- Authentification sécurisée
+- Mots de passe hachés en **SHA-256** avant stockage
 
-Structure du projet
+## 2. Gestion des événements
+- CRUD complet des événements
+- Gestion du titre, de la date, de l'heure et de la description
+- Association à une catégorie personnalisée
+- Mise en évidence des événements importants
+
+## 3. Gestion des tâches
+- CRUD complet des tâches personnelles
+- Priorisation des tâches
+- Organisation sous forme de tableau **Kanban**
+- Changement de statut :
+  - À faire
+  - En cours
+  - Terminé
+
+## 4. Recherche multicritères
+- Recherche par titre
+- Recherche par date
+- Recherche par catégorie
+- Filtrage des événements à venir
+
+## 5. Tableau de bord
+- Vue d'ensemble des événements
+- Vue d'ensemble des tâches
+- Navigation rapide entre les différentes fonctionnalités
+
+---
+
+# Structure du projet
+
+```text
 agenda-personnel/
 ├── config/
-│   ├── db.properties.example   # modele de configuration (verse au depot)
-│   └── db.properties           # identifiants reels (ignore par git)
+│   ├── db.properties.example      # Modèle de configuration
+│   └── db.properties              # Configuration locale (ignorée par Git)
+│
 ├── src/
-│   ├── modele/                 # classes metier (Evenement, Tache, Utilisateur, Categorie)
-│   ├── dao/                    # acces aux donnees (JDBC / Oracle)
-│   ├── controleur/             # logique de controle
-│   ├── vue/                    # interfaces JavaFX
-│   └── agendatp/               # point d'entree (main)
-├── agenda_personnel.sql        # script de creation de la base + donnees de demo
-├── run.sh / run.bat            # scripts de lancement (hors IDE)
+│   ├── modele/                    # Classes métier
+│   │   ├── Evenement
+│   │   ├── Tache
+│   │   ├── Utilisateur
+│   │   └── Categorie
+│   │
+│   ├── dao/                       # Accès aux données Oracle (JDBC)
+│   ├── controleur/                # Contrôleurs JavaFX
+│   ├── vue/                       # Interfaces JavaFX
+│   └── agendatp/                  # Classe Main
+│
+├── agenda_personnel.sql           # Création de la base et données de démonstration
+├── run.sh
+├── run.bat
 ├── .gitignore
 └── README.md
+```
 
-Technologies utilisees
-Composant	Technologie
-Langage	Java (17+)
-Interface	JavaFX
-Base de donnees	Oracle Database (XE), via Docker
-Acces aux donnees	JDBC (ojdbc8), SQL parametre (PreparedStatement)
-Securite	Hachage des mots de passe en SHA-256, identifiants externalises
+---
 
-Schema de la base de donnees
-Tables principales :
+# Technologies utilisées
 
-Utilisateur : comptes utilisateurs de l'application
-Categorie : categories d'evenements (libelle, couleur, icone)
-Evenement : evenements planifies, rattaches a une categorie et un utilisateur
-Tache : taches personnelles, rattachees a un statut, une priorite et eventuellement un evenement
+| Composant | Technologie |
+|-----------|-------------|
+| **Langage** | Java 17 |
+| **Interface** | JavaFX |
+| **Base de données** | Oracle Database XE |
+| **Accès aux données** | JDBC (`ojdbc8`) |
+| **Sécurité** | SHA-256 |
+| **IDE recommandé** | VS Code / NetBeans |
 
-Installation et lancement
-Prerequis
-JDK 17 ou superieur
-JavaFX SDK 17+ (https://gluonhq.com/products/javafx/)
-Docker, avec une image Oracle Database Express (XE) en cours d'execution sur le port 1521
-VS Code avec l'Extension Pack for Java
+---
 
-Etapes
-Cloner le depot :
+# Schéma de la base de données
+
+## Tables principales
+
+### Utilisateur
+Contient les comptes des utilisateurs de l'application.
+
+### Catégorie
+Stocke les catégories d'événements avec :
+- Libellé
+- Couleur
+- Icône
+
+### Événement
+Représente les événements créés par les utilisateurs.
+
+Chaque événement contient :
+- titre
+- description
+- date
+- heure
+- catégorie
+- importance
+
+### Tâche
+Contient les tâches personnelles avec :
+- titre
+- description
+- priorité
+- statut
+- événement associé (optionnel)
+
+---
+
+# Installation et lancement
+
+## Prérequis
+
+- JDK **17** ou supérieur
+- JavaFX SDK **17+**
+- Oracle Database XE
+- Docker
+- VS Code avec **Extension Pack for Java**
+
+---
+
+## 1. Cloner le projet
+
+```bash
 git clone https://github.com/<votre-utilisateur>/agenda-personnel.git
+
 cd agenda-personnel
+```
 
-Creer la base de donnees :
-Copier le script dans le conteneur Docker puis l'executer avec sqlplus :
-docker cp agenda_personnel.sql <nom_conteneur>:/tmp/agenda_personnel.sql
-docker exec -it <nom_conteneur> sqlplus system/VotreMotDePasse@localhost:1521/XE "@/tmp/agenda_personnel.sql"
-Cela cree les tables, les sequences, les triggers et insere les categories de demonstration.
+---
 
-Configurer les identifiants :
+## 2. Créer la base de données
+
+Copier le script SQL dans le conteneur Oracle :
+
+```bash
+docker cp agenda_personnel.sql <nom_du_conteneur>:/tmp/
+```
+
+Puis exécuter :
+
+```bash
+docker exec -it <nom_du_conteneur> \
+sqlplus system/VotreMotDePasse@localhost:1521/XE \
+@/tmp/agenda_personnel.sql
+```
+
+Le script crée automatiquement :
+
+- les tables
+- les clés étrangères
+- les séquences
+- les triggers
+- les catégories de démonstration
+
+---
+
+## 3. Configurer la connexion Oracle
+
+Copiez le fichier :
+
+```bash
 cp config/db.properties.example config/db.properties
-Renseigner dans config/db.properties l'URL, l'utilisateur et le mot de passe de votre instance Oracle :
+```
+
+Puis renseignez vos informations :
+
+```properties
 db.url=jdbc:oracle:thin:@localhost:1521:XE
 db.user=system
 db.password=VotreMotDePasse
-Ce fichier est ignore par git : vos identifiants ne sont jamais publies sur GitHub. Ne modifier que db.properties, jamais le .example.
+```
 
-Configurer JavaFX :
-Definir la variable d'environnement PATH_TO_FX vers le dossier lib du SDK JavaFX telecharge.
+Le fichier **db.properties** est ignoré par Git afin de protéger les identifiants de connexion.
 
-Windows (PowerShell) :
-[System.Environment]::SetEnvironmentVariable("PATH_TO_FX", "C:\chemin\vers\javafx-sdk-17\lib", "User")
+---
 
-macOS / Linux (~/.bashrc ou ~/.zshrc) :
+## 4. Configurer JavaFX
+
+Créer la variable d'environnement :
+
+### Windows
+
+```powershell
+[System.Environment]::SetEnvironmentVariable(
+"PATH_TO_FX",
+"C:\chemin\vers\javafx-sdk-17\lib",
+"User")
+```
+
+### Linux / macOS
+
+```bash
 export PATH_TO_FX=/chemin/vers/javafx-sdk-17/lib
+```
 
-Redemarrer completement VS Code apres avoir defini cette variable (un simple rechargement de fenetre ne suffit pas).
+Redémarrer complètement VS Code après cette configuration.
 
-Compiler et lancer :
-Depuis VS Code : ouvrir le dossier du projet, attendre l'indexation par l'extension Java, puis lancer avec F5.
-Depuis un terminal :
-./run.sh      (Linux / macOS)
-run.bat       (Windows)
+---
 
-Decisions d'architecture
-Separation en couches : modele, dao, controleur et vue sont clairement separes, chaque DAO encapsulant l'acces JDBC pour une seule entite.
-Requetes parametrees : toutes les requetes SQL utilisent des PreparedStatement pour eviter les injections SQL.
-Connexion en singleton : ConnexionDB centralise l'ouverture et la fermeture de la connexion Oracle.
-Identifiants externalises : aucun mot de passe n'est code en dur dans le code source ; ils sont lus depuis un fichier de configuration ignore par git.
+## 5. Compiler et lancer
 
-Correctifs apportes
-Ce depot a ete audite et corrige apres le developpement initial :
+Depuis VS Code :
 
-Mot de passe Oracle code en dur : ConnexionDB.java contenait les identifiants de connexion directement dans le code source. Ils ont ete externalises vers config/db.properties (ignore par git), avec un modele config/db.properties.example verse au depot.
+- Ouvrir le projet
+- Attendre l'indexation Java
+- Appuyer sur **F5**
 
-Fichiers non lies au projet presents dans l'archive : desktop.ini (metadonnee Windows Explorer) a ete supprime, et un .gitignore a ete ajoute pour exclure les artefacts de compilation (out/) et les fichiers d'environnement (.vscode/).
+Ou utiliser :
 
-Corruption des caracteres accentues : les categories de demonstration Reunion et RDV Medical etaient inserees avec des accents dans agenda_personnel.sql, ce qui provoquait leur corruption (affichage sous forme de points d'interrogation) lors de l'insertion via JDBC sous Windows. Les libelles ont ete reecrits sans accents dans le script pour eviter le probleme a la source.
+Linux / macOS
 
-Chemin JavaFX code en dur dans run.bat : le script pointait vers un chemin fixe (C:\Program Files\javafx-sdk-21\lib) qui ne correspond pas necessairement a l'emplacement reel du SDK sur chaque machine. A ajuster manuellement selon l'installation locale.
+```bash
+./run.sh
+```
 
-Exigences du TP couvertes
-Interface graphique Java (JavaFX)
-Gestion des evenements (titre, date, heure, description, type/categorie)
-Recherche selon plusieurs criteres (date, titre, categorie)
-Mise en evidence des rendez-vous importants
-Stockage dans une base de donnees relationnelle (Oracle)
-Fonctionnalite supplementaire : gestion des taches avec vue Kanban
+Windows
 
-Notes
-Les mots de passe utilisateurs sont haches en SHA-256 avant stockage ; aucun mot de passe n'est jamais stocke en clair.
-Des categories de demonstration sont inserees automatiquement par agenda_personnel.sql.
-La base de donnees est executee via Docker (image Oracle Database Express) et n'est pas incluse dans le depot.
+```bat
+run.bat
+```
 
-Contexte academique
-Projet realise dans le cadre du module POO Avancee - Institut Superieur de Gestion de Tunis (ISG Tunis), 2eme annee LN-BIS.
+---
 
-Membres du groupe :
+# Décisions d'architecture
 
-Feriel Bouazizi
-Yosr Ferjani
+## Architecture MVC
+
+L'application est organisée selon quatre couches :
+
+- **Modèle** : représentation des données
+- **DAO** : accès à la base Oracle via JDBC
+- **Contrôleur** : logique métier
+- **Vue** : interfaces JavaFX
+
+Cette séparation améliore :
+
+- la maintenance
+- la lisibilité
+- la réutilisabilité du code
+
+---
+
+## Accès sécurisé aux données
+
+Toutes les requêtes SQL utilisent des **PreparedStatement** afin de prévenir les injections SQL.
+
+---
+
+## Connexion centralisée
+
+La classe **ConnexionDB** gère une connexion unique vers Oracle et centralise son ouverture et sa fermeture.
+
+---
+
+## Sécurité
+
+- Aucun mot de passe Oracle n'est codé en dur.
+- Les identifiants sont externalisés dans **db.properties**.
+- Les mots de passe utilisateurs sont hachés avec **SHA-256**.
+
+---
+
+# Correctifs apportés
+
+Ce dépôt a été audité et amélioré après le développement initial.
+
+### Externalisation des identifiants Oracle
+
+Les identifiants de connexion présents dans **ConnexionDB.java** ont été déplacés vers :
+
+```
+config/db.properties
+```
+
+Un modèle :
+
+```
+config/db.properties.example
+```
+
+est fourni pour faciliter la configuration.
+
+---
+
+### Ajout du fichier .gitignore
+
+Les fichiers suivants sont désormais exclus du dépôt :
+
+- out/
+- .vscode/
+- fichiers temporaires
+- desktop.ini
+
+---
+
+### Correction des caractères accentués
+
+Les catégories de démonstration provoquaient un mauvais affichage sous Windows.
+
+Les libellés ont été adaptés afin d'éviter toute corruption des caractères.
+
+---
+
+### Correction du script de lancement
+
+Le chemin JavaFX présent dans **run.bat** était codé en dur.
+
+Il est désormais configurable via la variable d'environnement :
+
+```
+PATH_TO_FX
+```
+
+---
+
+# Exigences du TP couvertes
+
+- [x] Interface graphique JavaFX
+- [x] Authentification utilisateur
+- [x] Gestion des événements
+- [x] Gestion des catégories
+- [x] Gestion des tâches
+- [x] Tableau Kanban
+- [x] Recherche multicritères
+- [x] Mise en évidence des rendez-vous importants
+- [x] Base de données Oracle
+- [x] Architecture orientée objet
+- [x] JDBC
+- [x] Sécurité par hachage SHA-256
+
+---
+
+# Notes
+
+- Les mots de passe ne sont jamais stockés en clair.
+- Des catégories de démonstration sont automatiquement créées lors de l'exécution du script SQL.
+- Oracle Database XE est exécutée via Docker et n'est pas incluse dans le dépôt.
+- Le projet est compatible avec **Java 17+**.
+
+---
+
+# Contexte académique
+
+Projet réalisé dans le cadre du module **POO Avancée** à l'**Institut Supérieur de Gestion de Tunis (ISG Tunis)**.
+
+## Membres du groupe
+
+- Feriel Bouazizi
+- Yosr Ferjani
