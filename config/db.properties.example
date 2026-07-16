@@ -1,0 +1,6 @@
+# Copiez ce fichier en "db.properties" (meme dossier) et renseignez vos identifiants.
+# db.properties est ignore par git : vos identifiants ne seront jamais publies.
+
+db.url=jdbc:oracle:thin:@localhost:1521:XE
+db.user=system
+db.password=VotreMotDePasseIci

@@ -1,0 +1,7 @@
+out/
+*.class
+config/db.properties
+.vscode/
+desktop.ini
+.DS_Store
+Thumbs.db
